@@ -23,11 +23,21 @@ set timeout=3
 insmod all_video
 
 terminal_input console
-terminal_output console
+
+set gfxmode=auto
+insmod font
+if loadfont ${prefix}/fonts/unicode.pf2
+then
+	insmod gfxterm
+	set gfxmode=auto
+	set gfxpayload=1024x768x32
+	terminal_output gfxterm
+else
+	set gfxpayload=text
+	terminal_output console
+fi
 
 menuentry "Talos ISO" {
-	set gfxmode=auto
-	set gfxpayload=text
 	linux /boot/vmlinuz init_on_alloc=1 slab_nomerge pti=on panic=0 consoleblank=0 printk.devkmsg=on earlyprintk=ttyS0 console=tty0 console=ttyS0 talos.platform=metal
 	initrd /boot/initramfs.xz
 }`)

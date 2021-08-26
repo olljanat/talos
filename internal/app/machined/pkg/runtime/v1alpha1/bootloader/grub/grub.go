@@ -48,12 +48,22 @@ set timeout=3
 insmod all_video
 
 terminal_input console
-terminal_output console
+
+set gfxmode=auto
+insmod font
+if loadfont ${prefix}/fonts/unicode.pf2
+then
+	insmod gfxterm
+	set gfxmode=auto
+	set gfxpayload=1024x768x32
+	terminal_output gfxterm
+else
+	set gfxpayload=text
+	terminal_output console
+fi
 
 {{ range $label := .Labels -}}
 menuentry "{{ $label.Root }}" {
-  set gfxmode=auto
-  set gfxpayload=text
   linux {{ $label.Kernel }} {{ $label.Append }}
   initrd {{ $label.Initrd }}
 }
