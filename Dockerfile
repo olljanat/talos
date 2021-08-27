@@ -362,6 +362,10 @@ RUN ln -s /etc/ssl /rootfs/usr/share/ca-certificates
 RUN ln -s /etc/ssl /rootfs/usr/local/share/ca-certificates
 RUN ln -s /etc/ssl /rootfs/etc/ca-certificates
 
+# Make Talos compatible with Kube-Bench CIS Kubernetes Benchmark scanner.
+RUN mkdir -pv /etc/systemd
+RUN mkdir -pv /srv/kubernetes
+
 FROM build AS rootfs-base-arm64
 COPY --from=pkg-fhs / /rootfs
 COPY --from=pkg-ca-certificates / /rootfs
@@ -403,6 +407,10 @@ RUN ln -s /etc/ssl /rootfs/etc/pki
 RUN ln -s /etc/ssl /rootfs/usr/share/ca-certificates
 RUN ln -s /etc/ssl /rootfs/usr/local/share/ca-certificates
 RUN ln -s /etc/ssl /rootfs/etc/ca-certificates
+
+# Make Talos compatible with Kube-Bench CIS Kubernetes Benchmark scanner.
+RUN mkdir -pv /etc/systemd
+RUN mkdir -pv /srv/kubernetes
 
 FROM rootfs-base-${TARGETARCH} AS rootfs-base
 

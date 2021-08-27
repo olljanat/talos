@@ -16,8 +16,8 @@ spec:
       - name: kube-bench
         image: aquasec/kube-bench:latest
         args:
-        - master
-        - --version=1.13
+        - run
+        - --targets=master
         volumeMounts:
         - name: etc-kubernetes
           mountPath: /etc/kubernetes
